@@ -11,6 +11,9 @@ GButton butRight(BTN_Right);
 GButton butStop(BTN_Stop);
 GButton butSet(BTN_Set);
 //LEDs, LCD, Buzzer
+
+//test for git
+
 const int LED1Pin = 15;     //Зеленый диод
 const int LED2Pin = 16;     //Диод +
 const int LED3Pin = 14;     //Диод -
