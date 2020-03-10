@@ -2,6 +2,7 @@
 #include <PWM.h>
 #include <U8glib.h>
 #include <GyverEncoder.h>
+
 //Pins layout
 //Buttons
 #define ENC_SW 7          //Кнопка энкодера
@@ -90,28 +91,7 @@ void selectMode(int n){
     Serial.println(modeNames[n]);
     modeTemp = n;
 
-/*   switch (n) {
-    case 0:
-      Serial.println(modeNames[n]);
-      modeTemp = 0;
-      break;
-    case 1:
-      Serial.println("Standart Speeds");
-      modeTemp = 1;
-      break;
-    case 2:
-      Serial.println("10 Sec Gel");
-      modeTemp = 2;
-      break;
-    case 3:
-      Serial.println("10 Min Gel");
-      modeTemp = 3;
-      break;
-    case 4:
-      Serial.println("Speed Calibration");
-      modeTemp = 4;
-      break;
-    } */
+
   }
 
 float spdSelect(boolean up){       //Установка следующей/предыдущей стандартной скорости
@@ -129,15 +109,16 @@ void spdSet(float lrpm){
   Serial.print(" RPM set: ");Serial.println(lrpm);
   selected_RPM = lrpm;
   }
-int mcStpChoose(float lrpm){     //Выбор режима деления микрошага. Для низких скоростей - больше.
+
+int mcStpChoose(float lrpm){     //Выбор режима деления микрошага.
   int mcStp = 1;
   if (lrpm > 0.01) {
      if (lrpm <= 300){
       mcStp = 32;
       } else if (lrpm <= 600){
-        mcStp = 16;
+        mcStp = 32;
       } else if (lrpm <= 1200){
-        mcStp = 8;
+        mcStp = 32;
       } else if (lrpm <= 2400){
         mcStp = 4;
       } else if (lrpm <= 4800){
@@ -219,9 +200,9 @@ void setup() {                  //Стандартная процедура ин
   pinMode(DRV_M1_PIN,OUTPUT);   //Microstep M1
   pinMode(DRV_M2_PIN,OUTPUT);   //Microstep M2
   //Настраиваем прерывания
-  attachInterrupt(0, isr, CHANGE); //Подключить прерывание на 2 пине. Энкодер
+  //attachInterrupt(0, isr, CHANGE); //Подключить прерывание на 2 пине. Энкодер
   attachInterrupt(1,sens,FALLING); //подключить прерывание на 3 пине. Датчик Холла
-  InitTimersSafe(); 
+  InitTimersSafe();
   Serial.begin(115200);
   ADCSRA = 0b11100010;
   ADMUX = 0b01100100;
